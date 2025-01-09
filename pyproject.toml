@@ -1,0 +1,33 @@
+[build-system]
+build-backend = "scikit_build_core.build"
+requires = [
+    "scikit-build-core",
+    "cython-cmake",
+    "cython",
+    "numpy",
+]
+
+[tool.scikit-build]
+cmake.args = ["-GNinja"]
+ninja.make-fallback = false
+wheel.py-api = "cp37"
+wheel.license-files = ["LICENSE", "YNOGK/LICENSE"]
+
+[tool.meson-python]
+args.install = ['--tags=runtime']
+limited-api = true
+
+[project]
+name = "ynogk"
+version = "1.0.0"
+requires-python = ">=3.7"
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: C++",
+  "Programming Language :: C",
+  "Programming Language :: Cython",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Private :: Do Not Upload",
+]
