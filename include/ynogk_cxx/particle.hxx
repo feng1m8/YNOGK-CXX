@@ -10,7 +10,7 @@ namespace ynogk
     class Particle
     {
     public:
-        Particle(double a_spin, double robs, double muobs, double sinobs, double scal, double *velocity);
+        Particle(double a_spin, double robs, double muobs, double sinobs, double scal, const double *velocity);
 
         Particle(const Particle &);
         Particle(Particle &&);

@@ -2,7 +2,7 @@
 
 namespace ynogk
 {
-    Particle::Particle(double a_spin, double robs, double muobs, double sinobs, double scal, double *velocity) : pimpl(1, a_spin)
+    Particle::Particle(double a_spin, double robs, double muobs, double sinobs, double scal, const double *velocity) : pimpl(1, a_spin)
     {
         particle_construct(&this->pt, a_spin, robs, muobs, sinobs, scal, velocity);
     }
