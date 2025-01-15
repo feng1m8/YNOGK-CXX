@@ -52,7 +52,7 @@ if(PROJECT_IS_TOP_LEVEL)
 
     Python_add_library(
         "ynogk" MODULE
-        USE_SABI 3.7
+        USE_SABI 3.7 WITH_SOABI
         ${ynogk_pyx}
     )
 
