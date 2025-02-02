@@ -20,17 +20,17 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 add_library(
     "ynogk_cxx" OBJECT
+    # "src/elliptic/cei2.c"
+    # "src/elliptic/elf.c"
+    # "src/elliptic/elbd.c"
+    # "src/elliptic/elbdj2.c"
+    # "src/elliptic/elliptic.cxx"
     "YNOGK/common_src/Carlsons.c"
     "YNOGK/common_src/ellCarlsons.c"
     "YNOGK/common_src/ellfunctions.c"
     "YNOGK/common_src/particle.c"
     "YNOGK/common_src/rmu_tps.c"
     "YNOGK/common_src/root34.c"
-    # "src/elliptic/cei2.c"
-    # "src/elliptic/elf.c"
-    # "src/elliptic/elbd.c"
-    # "src/elliptic/elbdj2.c"
-    # "src/elliptic.cxx"
     "src/radius.cxx"
     "src/theta.cxx"
     "src/impl.cxx"

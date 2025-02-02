@@ -1,12 +1,11 @@
 #include <cmath>
 
-#include "elliptic/elbd.h"
-#include "elliptic/elbdj2.h"
-#include "elliptic/elf.h"
+#include "elbd.h"
+#include "elbdj2.h"
+#include "elf.h"
 
 extern "C"
 {
-#include "ConstantsUnits.h"
 #include "root34.h"
 
     double rc(double x, double y)
