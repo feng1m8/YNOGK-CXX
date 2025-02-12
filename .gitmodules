@@ -1,4 +1,4 @@
 [submodule "YNOGK"]
 	path = YNOGK
-	url = ../YNOGK.git
+	url = https://github.com/feng1m8/YNOGK.git
 	branch = master
