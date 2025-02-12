@@ -18,6 +18,11 @@ project(
 
 ynogk_cxx = static_library(
     'ynogk_cxx',
+    # 'src/elliptic/cei2.c',
+    # 'src/elliptic/elf.c',
+    # 'src/elliptic/elbd.c',
+    # 'src/elliptic/elbdj2.c',
+    # 'src/elliptic.cxx',
     'YNOGK/common_src/Carlsons.c',
     'YNOGK/common_src/ellCarlsons.c',
     'YNOGK/common_src/ellfunctions.c',
