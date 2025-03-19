@@ -81,7 +81,7 @@ cdef double rms(double a_spin) nogil:
 
 @cython.ufunc
 cdef double rhorizon(double a_spin) nogil:
-    return 1.0 + cmath.sqrt(1.0 - a_spin)
+    return 1.0 + cmath.sqrt(1.0 - a_spin * a_spin)
 
 
 @cython.ufunc
