@@ -57,11 +57,6 @@ if(PROJECT_IS_TOP_LEVEL)
     )
 
     target_link_libraries("ynogk" PRIVATE ynogk_cxx Python::NumPy)
-    target_compile_definitions(
-        "ynogk"
-        PRIVATE "-DCYTHON_LIMITED_API"
-        PRIVATE "-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION"
-    )
 
     install(
         TARGETS "ynogk"

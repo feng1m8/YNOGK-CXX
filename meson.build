@@ -62,10 +62,6 @@ if not meson.is_subproject()
             ynogk_cxx,
             numpy,
         ],
-        cpp_args: [
-            '-DCYTHON_LIMITED_API',
-            '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION',
-        ],
         override_options: [
             'cython_language=cpp',
         ],
