@@ -10,7 +10,7 @@ requires = [
 [tool.scikit-build]
 cmake.args = ["-GNinja"]
 ninja.make-fallback = false
-wheel.py-api = "cp37"
+wheel.py-api = "cp38"
 wheel.license-files = ["LICENSE", "YNOGK/LICENSE"]
 
 [tool.meson-python]
@@ -19,8 +19,8 @@ limited-api = true
 
 [project]
 name = "ynogk"
-version = "1.0.0"
-requires-python = ">=3.7"
+version = "1.0.1"
+requires-python = ">=3.8"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Science/Research",

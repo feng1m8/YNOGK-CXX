@@ -65,7 +65,7 @@ if not meson.is_subproject()
         override_options: [
             'cython_language=cpp',
         ],
-        limited_api: '3.7',
+        limited_api: '3.8',
         install: true,
     )
 endif
