@@ -1,5 +1,6 @@
 project(
     'YNOGK-CXX', 'cpp', 'c',
+    version: '2023.1.5'
     meson_version: '>=1.3.0',
     license: 'GPL-3.0-or-later',
     license_files: [
@@ -17,11 +18,6 @@ project(
 
 ynogk_cxx = static_library(
     'ynogk_cxx',
-    # 'src/elliptic/cei2.c',
-    # 'src/elliptic/elf.c',
-    # 'src/elliptic/elbd.c',
-    # 'src/elliptic/elbdj2.c',
-    # 'src/elliptic.cxx',
     'YNOGK/common_src/Carlsons.c',
     'YNOGK/common_src/ellCarlsons.c',
     'YNOGK/common_src/ellfunctions.c',
@@ -41,7 +37,7 @@ ynogk_cxx = static_library(
 
 ynogk_cxx = declare_dependency(
     objects: [
-        ynogk_cxx.extract_all_objects(recursive: false),
+        ynogk_cxx.extract_all_objects(),
     ],
     include_directories: [
         'include',
@@ -49,10 +45,18 @@ ynogk_cxx = declare_dependency(
     ],
 )
 
-if not meson.is_subproject()
-    add_languages('cython', native: false)
+python = import('python').find_installation(
+    pure: false,
+    modules: [
+        'numpy',
+        'cython',
+    ],
+    required: false,
+)
 
-    python = import('python').find_installation(pure: false)
+if python.found()
+    add_languages('cython')
+
     numpy = dependency('numpy')
 
     python.extension_module(

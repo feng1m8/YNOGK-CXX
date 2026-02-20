@@ -11,23 +11,27 @@ requires = [
 cmake.args = ["-GNinja"]
 ninja.make-fallback = false
 wheel.py-api = "cp38"
-wheel.license-files = ["LICENSE", "YNOGK/LICENSE"]
+metadata.version.provider = "scikit_build_core.metadata.regex"
+metadata.version.input = "CMakeLists.txt"
+metadata.version.regex = "VERSION \"(?P<value>[0-9]+(\\.[0-9]+)*)\""
+
+[project]
+name = "ynogk"
+dynamic = ["version"]
+requires-python = ">=3.8"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE", "YNOGK/LICENSE"]
+readme = "YNOGK/README.md"
+
+[build-system.meson-python]
+build-backend = "mesonpy"
+requires = [
+    "meson-python",
+    "meson >= 1.6.0",
+    "cython",
+    "numpy",
+]
 
 [tool.meson-python]
 args.install = ['--tags=runtime']
 limited-api = true
-
-[project]
-name = "ynogk"
-version = "1.0.1"
-requires-python = ">=3.8"
-classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
-  "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-  "Programming Language :: C++",
-  "Programming Language :: C",
-  "Programming Language :: Cython",
-  "Topic :: Scientific/Engineering :: Astronomy",
-  "Private :: Do Not Upload",
-]

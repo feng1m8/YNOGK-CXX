@@ -3,15 +3,17 @@ cmake_minimum_required(VERSION 3.26)
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
-project("YNOGK-CXX"
+project(
+    "YNOGK-CXX"
     LANGUAGES CXX C
+    VERSION "2023.1.5"
 )
 
 file(GENERATE OUTPUT ".gitignore" CONTENT "*")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -32,34 +34,46 @@ add_library(
     "src/particle.cxx"
 )
 
-target_include_directories("ynogk_cxx" PUBLIC "include" "YNOGK/common_src")
+target_include_directories(
+    "ynogk_cxx" 
+    PUBLIC "include" 
+    PUBLIC "YNOGK/common_src"
+)
 
-if(PROJECT_IS_TOP_LEVEL)
-    find_package(
-        Python REQUIRED
-        Interpreter Development.SABIModule NumPy
-    )
+find_package(
+    Python
+    COMPONENTS Interpreter Development.SABIModule NumPy
+)
 
+if(Python_FOUND)
     list(APPEND CMAKE_MODULE_PATH "${Python_SITEARCH}/cython_cmake/cmake")
-    find_package(Cython MODULE REQUIRED)
-    include(UseCython)
 
-    cython_transpile(
-        "src/ynogk.pyx"
-        LANGUAGE CXX
-        OUTPUT_VARIABLE ynogk_pyx
-    )
+    find_package(Cython MODULE)
 
-    Python_add_library(
-        "ynogk" MODULE
-        USE_SABI 3.7 WITH_SOABI
-        ${ynogk_pyx}
-    )
+    if(Cython_FOUND)
+        include(UseCython)
+        
+        cython_transpile(
+            "src/ynogk.pyx"
+            LANGUAGE CXX
+            OUTPUT_VARIABLE ynogk_pyx
+        )
 
-    target_link_libraries("ynogk" PRIVATE ynogk_cxx Python::NumPy)
+        Python_add_library(
+            "ynogk" MODULE
+            USE_SABI 3.8 WITH_SOABI
+            ${ynogk_pyx}
+        )
 
-    install(
-        TARGETS "ynogk"
-        DESTINATION "."
-    )
+        target_link_libraries(
+            "ynogk"
+            PRIVATE ynogk_cxx 
+            PRIVATE Python::NumPy
+        )
+
+        install(
+            TARGETS "ynogk"
+            DESTINATION "."
+        )
+    endif()
 endif()
