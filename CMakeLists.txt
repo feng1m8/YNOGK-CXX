@@ -6,7 +6,7 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 project(
     "YNOGK-CXX"
     LANGUAGES CXX C
-    VERSION "2023.1.5"
+    VERSION "0.2.0"
 )
 
 file(GENERATE OUTPUT ".gitignore" CONTENT "*")
@@ -46,7 +46,10 @@ find_package(
 )
 
 if(Python_FOUND)
-    list(APPEND CMAKE_MODULE_PATH "${Python_SITEARCH}/cython_cmake/cmake")
+    list(
+        APPEND CMAKE_MODULE_PATH 
+        "${Python_SITEARCH}/cython_cmake/cmake"
+    )
 
     find_package(Cython MODULE)
 
@@ -61,7 +64,7 @@ if(Python_FOUND)
 
         Python_add_library(
             "ynogk" MODULE
-            USE_SABI 3.8 WITH_SOABI
+            USE_SABI 3.9 WITH_SOABI
             ${ynogk_pyx}
         )
 

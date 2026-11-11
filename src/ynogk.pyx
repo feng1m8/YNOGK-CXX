@@ -98,6 +98,7 @@ cdef class ptcl:
     def __init__(self, double a_spin, double radius, double muobs, double sinobs, velocity=[0.0, 0.0, 0.0], double scal=1.0):
         cdef double[3] velo = [velocity[0], velocity[1], velocity[2]]
         self.pt = Particle(a_spin, radius, muobs, sinobs, scal, velo)
+        self.pt.metric()
 
     def lambdaq(self, double pr, double ptheta, pphi=None):
         if pphi is None:
@@ -105,23 +106,20 @@ cdef class ptcl:
         else:
             self.pt.lambdaq(pr, ptheta, pphi)
 
-    def metric(self):
-        self.pt.metric()
-
     def center_of_image(self):
         self.pt.center_of_image()
 
     def mutp(self):
-        return self.pt.mutp()    
+        return self.pt.mutp()
 
     def rtp(self):
-        return self.pt.rtp()    
+        return self.pt.rtp()
 
     def mu2p(self, double mu, int t1, int t2):
-        return self.pt.mu2p(mu, t1, t2)    
+        return self.pt.mu2p(mu, t1, t2)
 
     def r2p(self, double r, int t1, int t2):
-        return self.pt.r2p(r, t1, t2)    
+        return self.pt.r2p(r, t1, t2)
 
     def mucos(self, double pem):
         operator.dereference(self.pt).mu_p = self.pt.mucos(pem)

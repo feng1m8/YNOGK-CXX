@@ -20,7 +20,7 @@ namespace ynogk
 
     void Particle::lambdaq(double pr, double ptheta, double pphi)
     {
-        ini_direction2lamdaq(&this->pt, pr, ptheta, pphi);
+        ini_direction2lamdaq_new(&this->pt, pr, ptheta, pphi);
     }
 
     void Particle::metric()

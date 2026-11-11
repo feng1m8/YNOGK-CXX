@@ -10,28 +10,18 @@ requires = [
 [tool.scikit-build]
 cmake.args = ["-GNinja"]
 ninja.make-fallback = false
-wheel.py-api = "cp38"
-metadata.version.provider = "scikit_build_core.metadata.regex"
-metadata.version.input = "CMakeLists.txt"
-metadata.version.regex = "VERSION \"(?P<value>[0-9]+(\\.[0-9]+)*)\""
+wheel.py-api = "cp39"
+
+[[tool.dynamic-metadata]]
+provider = "scikit_build_core.metadata.regex"
+field = "version"
+input = "CMakeLists.txt"
+regex = "VERSION \"(?P<value>[0-9]+(\\.[0-9]+)*)\""
 
 [project]
 name = "ynogk"
 dynamic = ["version"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "GPL-3.0-or-later"
 license-files = ["LICENSE", "YNOGK/LICENSE"]
 readme = "YNOGK/README.md"
-
-[build-system.meson-python]
-build-backend = "mesonpy"
-requires = [
-    "meson-python",
-    "meson >= 1.6.0",
-    "cython",
-    "numpy",
-]
-
-[tool.meson-python]
-args.install = ['--tags=runtime']
-limited-api = true

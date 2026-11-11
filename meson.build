@@ -1,6 +1,6 @@
 project(
     'YNOGK-CXX', 'cpp', 'c',
-    version: '2023.1.5'
+    version: '0.2.0',
     meson_version: '>=1.3.0',
     license: 'GPL-3.0-or-later',
     license_files: [
@@ -36,9 +36,9 @@ ynogk_cxx = static_library(
 )
 
 ynogk_cxx = declare_dependency(
-    objects: [
-        ynogk_cxx.extract_all_objects(),
-    ],
+    objects: ynogk_cxx.extract_all_objects(
+        recursive: false
+    ),
     include_directories: [
         'include',
         'YNOGK/common_src',
@@ -54,22 +54,20 @@ python = import('python').find_installation(
     required: false,
 )
 
-if python.found()
-    add_languages('cython')
+add_languages('cython', native: false)
 
-    numpy = dependency('numpy')
+numpy = dependency('numpy')
 
-    python.extension_module(
-        'ynogk',
-        'src/ynogk.pyx',
-        dependencies: [
-            ynogk_cxx,
-            numpy,
-        ],
-        override_options: [
-            'cython_language=cpp',
-        ],
-        limited_api: '3.8',
-        install: true,
-    )
-endif
+python.extension_module(
+    'ynogk',
+    'src/ynogk.pyx',
+    dependencies: [
+        ynogk_cxx,
+        numpy,
+    ],
+    override_options: [
+        'cython_language=cpp',
+    ],
+    limited_api: '3.9',
+    install: true,
+)
