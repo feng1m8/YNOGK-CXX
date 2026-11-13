@@ -20,6 +20,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_EXTENSIONS OFF)
 
+include(src/solve2345.cmake)
+
 add_library(
     "ynogk_cxx" OBJECT
     "YNOGK/common_src/Carlsons.c"
@@ -27,17 +29,22 @@ add_library(
     "YNOGK/common_src/ellfunctions.c"
     "YNOGK/common_src/particle.c"
     "YNOGK/common_src/rmu_tps.c"
-    "YNOGK/common_src/root34.c"
     "src/radius.cxx"
     "src/theta.cxx"
     "src/impl.cxx"
     "src/particle.cxx"
+    "src/ynogk_cxx/root34.cxx"
 )
 
 target_include_directories(
     "ynogk_cxx" 
     PUBLIC "include" 
     PUBLIC "YNOGK/common_src"
+)
+
+target_link_libraries(
+    ynogk_cxx PRIVATE
+    solve2345
 )
 
 find_package(
@@ -72,6 +79,7 @@ if(Python_FOUND)
             "ynogk"
             PRIVATE ynogk_cxx 
             PRIVATE Python::NumPy
+            PRIVATE solve2345
         )
 
         install(
