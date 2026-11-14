@@ -6,7 +6,7 @@
 
 extern "C"
 {
-#include "solve2345/solve2345.h"
+#include "solve2345.h"
 }
 
 extern "C" void sort(double a1, double a2, double a3, double *s)

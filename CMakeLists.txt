@@ -20,7 +20,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_EXTENSIONS OFF)
 
-include(src/solve2345.cmake)
+add_subdirectory(src/solve2345)
 
 add_library(
     "ynogk_cxx" OBJECT
@@ -79,7 +79,6 @@ if(Python_FOUND)
             "ynogk"
             PRIVATE ynogk_cxx 
             PRIVATE Python::NumPy
-            PRIVATE solve2345
         )
 
         install(
