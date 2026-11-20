@@ -1,17 +1,16 @@
-#ifndef YNOGK_CXX_ELLIPTIC_CEI2_H
-#define YNOGK_CXX_ELLIPTIC_CEI2_H
+#ifndef CEI2_H
+#define CEI2_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+double ceik(double mc);
+double ceie(double mc);
+double ceib(double mc);
+double ceid(double mc);
+double ceis(double mc);
 
-    double ceik(double mc);
-    double ceib(double mc);
-    double ceid(double mc);
-
-#ifdef __cplusplus
-}
-#endif
+double sceik(double mc);
+double sceie(double mc);
+double sceib(double mc);
+double sceid(double mc);
+double sceis(double mc);
 
 #endif
