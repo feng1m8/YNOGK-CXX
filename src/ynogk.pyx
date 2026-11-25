@@ -310,3 +310,50 @@ cdef class ptcl:
     @property
     def expmu2(self):
         return operator.dereference(self.pt).mt.expmu2
+
+
+
+
+cdef extern from 'ynogk_cxx/particle.hxx':
+    '''
+    extern "C"
+    {
+    double ceik(double mc);
+    double ceie(double mc);
+    double ceib(double mc);
+    double ceid(double mc);
+    double ceis(double mc);
+    double gelf(double phi, double m);
+    }
+    '''
+    double c_ceik 'ceik' (double) nogil
+    double c_ceie 'ceie' (double) nogil
+    double c_ceib 'ceib' (double) nogil
+    double c_ceid 'ceid' (double) nogil
+    double c_ceis 'ceis' (double) nogil
+    double c_gelf 'gelf' (double, double) nogil
+
+
+@cython.ufunc
+cdef double ceik(double mc) nogil:
+    return c_ceik(mc)
+
+@cython.ufunc
+cdef double ceie(double mc) nogil:
+    return c_ceie(mc)
+
+@cython.ufunc
+cdef double ceib(double mc) nogil:
+    return c_ceib(mc)
+
+@cython.ufunc
+cdef double ceid(double mc) nogil:
+    return c_ceid(mc)
+
+@cython.ufunc
+cdef double ceis(double mc) nogil:
+    return c_ceis(mc)
+
+@cython.ufunc
+cdef double gelf(double phi, double m) nogil:
+    return c_gelf(phi, m)

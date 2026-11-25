@@ -24,6 +24,9 @@ add_subdirectory(src/solve2345)
 
 add_library(
     "ynogk_cxx" OBJECT
+    "src/elliptic/qcei.c"
+    "src/elliptic/cei2.c"
+    "src/elliptic/gelf.c"
     "YNOGK/common_src/Carlsons.c"
     "YNOGK/common_src/ellCarlsons.c"
     "YNOGK/common_src/ellfunctions.c"

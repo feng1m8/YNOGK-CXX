@@ -7,8 +7,15 @@ double ceik(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * ceik(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return sqrt(mc) * ceik(mc);
+        }
     }
     else if (mc > 0.59299)
     {
@@ -115,8 +122,8 @@ double ceie(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(mc) * ceie(t2);
+        double t = 1.0 / mc;
+        return sqrt(mc) * ceie(t);
     }
     else if (mc > 0.566638)
     {
@@ -218,8 +225,15 @@ double ceib(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * ceid(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return sqrt(mc) * ceid(mc);
+        }
     }
     else if (mc > 0.555073)
     {
@@ -321,8 +335,8 @@ double ceid(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * ceib(t2);
+        mc = 1.0 / mc;
+        return sqrt(mc) * ceib(mc);
     }
     else if (mc > 0.599909)
     {
@@ -429,8 +443,15 @@ double ceis(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return t2 * sqrt(t2) * ceis(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return mc * sqrt(mc) * ceis(mc);
+        }
     }
     else if (mc > 0.601505)
     {
@@ -537,8 +558,15 @@ double sceik(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * sceik(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return sqrt(mc) * ceik(mc);
+        }
     }
     else if (mc > 0.265401)
     {
@@ -582,8 +610,8 @@ double sceie(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(mc) * sceie(t2);
+        double t = 1.0 / mc;
+        return sqrt(mc) * sceie(t);
     }
     else if (mc > 0.208783)
     {
@@ -631,8 +659,15 @@ double sceib(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * sceid(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return sqrt(mc) * ceid(mc);
+        }
     }
     else if (mc > 0.189887)
     {
@@ -680,8 +715,8 @@ double sceid(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return sqrt(t2) * sceib(t2);
+        mc = 1.0 / mc;
+        return sqrt(mc) * ceib(mc);
     }
     else if (mc > 0.278803)
     {
@@ -725,8 +760,15 @@ double sceis(double mc)
 {
     if (mc > 1.0)
     {
-        double t2 = 1.0 / mc;
-        return t2 * sqrt(t2) * sceis(t2);
+        if (isinf(mc))
+        {
+            return 0.0;
+        }
+        else
+        {
+            mc = 1.0 / mc;
+            return mc * sqrt(mc) * ceis(mc);
+        }
     }
     else if (mc > 0.238145)
     {
