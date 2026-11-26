@@ -324,6 +324,12 @@ cdef extern from 'ynogk_cxx/particle.hxx':
     double ceid(double mc);
     double ceis(double mc);
     double gelf(double phi, double m);
+    double icelk(double K);
+    double icele(double EP);
+    long double qceik(long double m, long double mc);
+    long double qceie(long double m, long double mc);
+    long double qceib(long double m, long double mc);
+    long double qceid(long double m, long double mc);
     }
     '''
     double c_ceik 'ceik' (double) nogil
@@ -332,7 +338,12 @@ cdef extern from 'ynogk_cxx/particle.hxx':
     double c_ceid 'ceid' (double) nogil
     double c_ceis 'ceis' (double) nogil
     double c_gelf 'gelf' (double, double) nogil
-
+    double c_icelk 'icelk' (double) nogil
+    double c_icele 'icele' (double) nogil
+    long double c_qceik 'qceik'(long double m, long double mc) nogil
+    long double c_qceie 'qceie'(long double m, long double mc) nogil
+    long double c_qceib 'qceib'(long double m, long double mc) nogil
+    long double c_qceid 'qceid'(long double m, long double mc) nogil
 
 @cython.ufunc
 cdef double ceik(double mc) nogil:
@@ -357,3 +368,27 @@ cdef double ceis(double mc) nogil:
 @cython.ufunc
 cdef double gelf(double phi, double m) nogil:
     return c_gelf(phi, m)
+
+@cython.ufunc
+cdef double icelk(double K) nogil:
+    return c_icelk(K)
+
+@cython.ufunc
+cdef double icele(double EP) nogil:
+    return c_icele(EP)
+
+@cython.ufunc
+cdef double qceik(double m, double mc) nogil:
+    return c_qceik(m, mc)
+
+@cython.ufunc
+cdef double qceie(double m, double mc) nogil:
+    return c_qceie(m, mc)
+
+@cython.ufunc
+cdef double qceib(double m, double mc) nogil:
+    return c_qceib(m, mc)
+
+@cython.ufunc
+cdef double qceid(double m, double mc) nogil:
+    return c_qceid(m, mc)

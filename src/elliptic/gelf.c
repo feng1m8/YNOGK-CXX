@@ -14,33 +14,36 @@ double gelf(double phi, double m)
     {
         if (isfinite(phi))
         {
+            if (isinf(mc))
+                return 0.0;
+
             double phix = remainder(phi, PI);
             double n = (phi - phix) / PI;
             phi = fabs(phix);
 
-            double t = 1.0;
+            double kc = 1.0;
 
             if (mc > 1.0)
             {
                 mc = 1.0 / mc;
-                t = sqrt(mc);
-                phi = atan(tan(phi) * t);
+                kc = sqrt(mc);
+                phi = atan(tan(phi) / kc);
             }
 
             double f = elf(phi, 0.5 * PI - phi, mc);
             f = copysign(f, phix);
 
-            if (n == 0.0 || isinf(m))
+            if (n == 0.0)
             {
-                return t * f;
+                return kc * f;
             }
             else
             {
                 double k = ceik(mc);
-                return t * (f + 2.0 * n * k);
+                return kc * (f + 2.0 * n * k);
             }
         }
-        else if (isinf(phi) && isinf(m))
+        else if (isinf(phi) && isinf(mc))
         {
             feraiseexcept(FE_DIVBYZERO);
             return nan("");
@@ -53,9 +56,7 @@ double gelf(double phi, double m)
     else if (mc < 0.0)
     {
         if (phi == 0.0)
-        {
             return 0.0;
-        }
 
         double phix = fabs(phi);
 
@@ -63,28 +64,21 @@ double gelf(double phi, double m)
         {
             m = 1.0 / m;
             mc = 1.0 - m;
-            double t = sqrt(m);
-            phix = asin(sin(phix) / t);
+            double k = sqrt(m);
+            phix = asin(sin(phix) / k);
 
             double f = elf(phix, 0.5 * PI - phix, mc);
             f = copysign(f, phi);
 
-            return t * f;
+            return k * f;
         }
-        else if (isnan(phi))
-        {
-            return nan("");
-        }
-        else
+        else if (!isnan(phi))
         {
             feraiseexcept(FE_INVALID);
-            return nan("");
         }
     }
-    else
-    {
-        return nan("");
-    }
+
+    return nan("");
 }
 
 double elf(double phi, double phic, double mc)
@@ -215,6 +209,7 @@ double serf(double y, double m)
     double F7 = F70 + m * (F71 + m * (F72 + m * (F73 + m * (F73 + m * (F72 + m * (F71 + m * F70))))));
     double F8 = F80 + m * (F81 + m * (F82 + m * (F83 + m * (F84 + m * (F83 + m * (F82 + m * (F81 + m * F80)))))));
     double F9 = F90 + m * (F91 + m * (F92 + m * (F93 + m * (F94 + m * (F94 + m * (F93 + m * (F92 + m * (F91 + m * F90))))))));
+
     return 1.0 + y * (F1 + y * (F2 + y * (F3 + y * (F4 + y * (F5 + y * (F6 + y * (F7 + y * (F8 + y * F9))))))));
 }
 
@@ -228,33 +223,36 @@ float rgelf(float phi, float m)
     {
         if (isfinite(phi))
         {
+            if (isinf(mc))
+                return 0.0f;
+
             float phix = remainderf(phi, PI);
             float n = (phi - phix) / PI;
             phi = fabsf(phix);
 
-            float t = 1.0f;
+            float kc = 1.0f;
 
             if (mc > 1.0f)
             {
                 mc = 1.0f / mc;
-                t = sqrtf(mc);
-                phi = atanf(tanf(phi) * t);
+                kc = sqrtf(mc);
+                phi = atanf(tanf(phi) / kc);
             }
 
             float f = relf(phi, 0.5f * PI - phi, mc);
             f = copysignf(f, phix);
 
-            if (n == 0.0f || isinf(m))
+            if (n == 0.0f)
             {
-                return t * f;
+                return kc * f;
             }
             else
             {
                 float k = sceik(mc);
-                return t * (f + 2.0f * n * k);
+                return kc * (f + 2.0f * n * k);
             }
         }
-        else if (isinf(phi) && isinf(m))
+        else if (isinf(phi) && isinf(mc))
         {
             feraiseexcept(FE_DIVBYZERO);
             return nanf("");
@@ -267,38 +265,29 @@ float rgelf(float phi, float m)
     else if (mc < 0.0f)
     {
         if (phi == 0.0f)
-        {
             return 0.0f;
-        }
-        
+
         float phix = fabsf(phi);
 
         if (phix < 0.5f * PI)
         {
             m = 1.0f / m;
             mc = 1.0f - m;
-            float t = sqrtf(m);
-            phix = asinf(sinf(phix) / t);
+            float k = sqrtf(m);
+            phix = asinf(sinf(phix) / k);
 
             float f = relf(phix, 0.5f * PI - phix, mc);
             f = copysignf(f, phi);
 
-            return t * f;
+            return k * f;
         }
-        else if (isnan(phi))
-        {
-            return nanf("");
-        }
-        else
+        else if (!isnan(phi))
         {
             feraiseexcept(FE_INVALID);
-            return nanf("");
         }
     }
-    else
-    {
-        return nanf("");
-    }
+
+    return nanf("");
 }
 
 float relf(float phi, float phic, float mc)
@@ -412,5 +401,6 @@ float rserf(float y, float m)
     float F4 = F40 + m * (F41 + m * (F42 + m * (F41 + m * F40)));
     float F5 = F50 + m * (F51 + m * (F52 + m * (F52 + m * (F51 + m * F50))));
     float F6 = F60 + m * (F61 + m * (F62 + m * (F63 + m * (F62 + m * (F61 + m * F60)))));
+
     return 1.0f + y * (F1 + y * (F2 + y * (F3 + y * (F4 + y * (F5 + y * F6)))));
 }

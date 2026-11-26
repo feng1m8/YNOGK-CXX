@@ -27,6 +27,7 @@ add_library(
     "src/elliptic/qcei.c"
     "src/elliptic/cei2.c"
     "src/elliptic/gelf.c"
+    "src/elliptic/icelke.c"
     "YNOGK/common_src/Carlsons.c"
     "YNOGK/common_src/ellCarlsons.c"
     "YNOGK/common_src/ellfunctions.c"

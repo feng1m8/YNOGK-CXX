@@ -1,3 +1,4 @@
+#include <fenv.h>
 #include <math.h>
 
 #include "qcei.h"
@@ -10,7 +11,16 @@ long double qceik(long double m, long double mc)
 
     if (m < 0.0l)
     {
-        return nanl("");
+        if (isinf(mc))
+        {
+            return 0.0l;
+        }
+        else
+        {
+            mc = 1.0l / mc;
+            m = 1.0l - mc;
+            return sqrtl(mc) * qceik(m, mc);
+        }
     }
     else if (m <= m1)
     {
@@ -44,7 +54,7 @@ long double qceik(long double m, long double mc)
             t * (9.90443456161594887654229063675228311e-10l))))))))))))));
         /* clang-format on */
     }
-    else if (mc > 0.0l)
+    else if (mc >= 0.0l)
     {
         long double t = 1.0l - mc / m1c;
         /* clang-format off */
@@ -101,11 +111,18 @@ long double qceik(long double m, long double mc)
             t * (-2.868238532992932567221797549654280165e-6l + 
             t * (-1.756305036671972221150950101062154738e-8l))))))))))))));
         /* clang-format on */
-        long double qceik = qk / PI * log(16.0l / mc) + qkx * mc;
+        long double qceik = qk / PI * logl(16.0l / mc) + qkx * mc;
         return qceik * (1.0l - 8.6e-34l);
     }
-
-    return nanl("");
+    else if (isnan(mc))
+    {
+        return nanl("");
+    }
+    else
+    {
+        feraiseexcept(FE_INVALID);
+        return nanl("");
+    }
 }
 
 long double qceie(long double m, long double mc)
@@ -116,7 +133,10 @@ long double qceie(long double m, long double mc)
 
     if (m < 0.0l)
     {
-        return nanl("");
+        long double kc = sqrtl(mc);
+        mc = 1.0l / mc;
+        m = 1.0l - mc;
+        return kc * qceie(m, mc);
     }
     else if (m <= m1)
     {
@@ -207,10 +227,17 @@ long double qceie(long double m, long double mc)
             t * (3.381764518042796319771081944058579209e-7l + 
             t * (6.44742591214091572289599989859066949e-10l))))))))))))));
         /* clang-format on */
-        return qey * mc * log(16.0l / mc) + qex;
+        return qey * mc * logl(16.0l / mc) + qex;
     }
-
-    return nanl("");
+    else if (mc == 0.0l || isnan(mc))
+    {
+        return m;
+    }
+    else
+    {
+        feraiseexcept(FE_INVALID);
+        return nanl("");
+    }
 }
 
 long double qceib(long double m, long double mc)
@@ -221,7 +248,16 @@ long double qceib(long double m, long double mc)
 
     if (m < 0.0l)
     {
-        return nanl("");
+        if (isinf(mc))
+        {
+            return 0.0l;
+        }
+        else
+        {
+            mc = 1.0l / mc;
+            m = 1.0l - mc;
+            return sqrtl(mc) * qceid(m, mc);
+        }
     }
     else if (m <= m1)
     {
@@ -312,11 +348,18 @@ long double qceib(long double m, long double mc)
             t * (2.823065503297634134489849902749678176969e-6l + 
             t * (1.381297481376112662595041962185453125928e-8l))))))))))))));
         /* clang-format on */
-        long double qceib = qbx * mc * log(16.0l / mc) + qb0;
+        long double qceib = qbx * mc * logl(16.0l / mc) + qb0;
         return qceib * (1.0l - 2.0e-34l);
     }
-
-    return nanl("");
+    else if (mc == 0.0l || isnan(mc))
+    {
+        return m;
+    }
+    else
+    {
+        feraiseexcept(FE_INVALID);
+        return nanl("");
+    }
 }
 
 long double qceid(long double m, long double mc)
@@ -327,7 +370,9 @@ long double qceid(long double m, long double mc)
 
     if (m < 0.0l)
     {
-        return nanl("");
+        mc = 1.0l / mc;
+        m = 1.0l - mc;
+        return sqrtl(mc) * qceib(m, mc);
     }
     else if (m <= m1)
     {
@@ -361,7 +406,7 @@ long double qceid(long double m, long double mc)
             t * (1.653735430445740619344009818123560425758e-9l))))))))))))));
         /* clang-format on */
     }
-    else if (m < 1.0l)
+    else if (m <= 1.0l)
     {
         long double t = 1.0l - mc / m1c;
         /* clang-format off */
@@ -418,9 +463,16 @@ long double qceid(long double m, long double mc)
             t * (1.057766108415894598319664574974563383873e-6l + 
             t * (2.109735380420737738945429318452741608483e-9l))))))))))))));
         /* clang-format on */
-        long double qceid = qdx * log(16.0l / mc) + qd0;
+        long double qceid = qdx * logl(16.0l / mc) + qd0;
         return qceid * (1.0l - 1.0e-34l);
     }
-
-    return nanl("");
+    else if (isnan(mc))
+    {
+        return nanl("");
+    }
+    else
+    {
+        feraiseexcept(FE_INVALID);
+        return nanl("");
+    }
 }
