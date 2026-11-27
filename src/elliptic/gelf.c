@@ -1,4 +1,5 @@
 #include <fenv.h>
+#include <iso646.h>
 #include <math.h>
 
 #include "cei2.h"
@@ -43,7 +44,7 @@ double gelf(double phi, double m)
                 return kc * (f + 2.0 * n * k);
             }
         }
-        else if (isinf(phi) && isinf(mc))
+        else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
             return nan("");
@@ -252,7 +253,7 @@ float rgelf(float phi, float m)
                 return kc * (f + 2.0f * n * k);
             }
         }
-        else if (isinf(phi) && isinf(mc))
+        else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
             return nanf("");

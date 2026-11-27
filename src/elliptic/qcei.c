@@ -1,4 +1,5 @@
 #include <fenv.h>
+#include <iso646.h>
 #include <math.h>
 
 #include "qcei.h"
@@ -229,7 +230,7 @@ long double qceie(long double m, long double mc)
         /* clang-format on */
         return qey * mc * logl(16.0l / mc) + qex;
     }
-    else if (mc == 0.0l || isnan(mc))
+    else if (mc >= 0.0l or isnan(mc))
     {
         return m;
     }
@@ -351,7 +352,7 @@ long double qceib(long double m, long double mc)
         long double qceib = qbx * mc * logl(16.0l / mc) + qb0;
         return qceib * (1.0l - 2.0e-34l);
     }
-    else if (mc == 0.0l || isnan(mc))
+    else if (mc >= 0.0l or isnan(mc))
     {
         return m;
     }

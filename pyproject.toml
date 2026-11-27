@@ -23,5 +23,11 @@ name = "ynogk"
 dynamic = ["version"]
 requires-python = ">=3.9"
 license = "GPL-3.0-or-later"
-license-files = ["LICENSE", "YNOGK/LICENSE"]
+license-files = [
+    "LICENSE", 
+    "YNOGK/LICENSE", 
+    "src/solve2345/LICENSE", 
+    "extra/elliptic/CC-BY-SA-4.0.txt", 
+    "extra/rootfind/LICENSE.txt"
+]
 readme = "YNOGK/README.md"

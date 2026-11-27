@@ -1,4 +1,5 @@
 #include <fenv.h>
+#include <float.h>
 #include <math.h>
 
 #include "cei2.h"
@@ -109,7 +110,7 @@ double ceik(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -198,7 +199,7 @@ double ceie(double mc)
                ((4935.56743322938333 + t2 * (7506.8028283118051 + t2 * 141.854303920116856)) +
                 t * (10694.5510113880077 + t2 * (1918.38517009740321 + t2)));
     }
-    else if (mc > 0.0)
+    else if (mc >= 16.0 * DBL_TRUE_MIN)
     {
         double t = 1.0 - 206.568890725056806 * mc;
         return -mc * log(mc * 0.0625) *
@@ -207,13 +208,13 @@ double ceie(double mc)
                (132232.803956682877 + t * (353.375480007017643 - t * 1.40105837312528026)) /
                    (132393.665743088043 + t * (192.112635228732532 - t));
     }
-    else if (mc == 0.0)
+    else if (mc >= 0.0)
     {
         return 1.0;
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -308,7 +309,7 @@ double ceib(double mc)
                ((2172.70451405048305 + t2 * (3630.52345460629336 + t2 * 83.17316322263908)) +
                 t * (4916.35263668839769 + t2 * (993.36676027886685 + t2)));
     }
-    else if (mc > 0.0)
+    else if (mc >= 16.0 * DBL_TRUE_MIN)
     {
         double t = 1.0 - 106.292517006802721 * mc;
         return mc * log(mc * 0.0625) *
@@ -317,13 +318,13 @@ double ceib(double mc)
                (26251.567890258487 + t * (168.788023807915689 + t * 0.352150236262724288)) /
                    (26065.7912239203873 + t * (353.916840382280456 + t));
     }
-    else if (mc == 0.0)
+    else if (mc >= 0.0)
     {
         return 1.0;
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -431,7 +432,7 @@ double ceid(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -546,7 +547,7 @@ double ceis(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -605,7 +606,7 @@ double sceik(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -649,20 +650,20 @@ double sceie(double mc)
                ((3.39241442 + t2 * 19.0310444) +
                 t * (20.8511381 + t2));
     }
-    else if (mc > 0.0)
+    else if (mc >= 16.0 * DBL_TRUE_MIN)
     {
         double t = 1.0 - 410.846343 * mc;
         return -mc * log(mc * 0.0625) *
                    (0.250228492 - t * 0.000228535208) +
                (0.999390295 + t * (0.000610911723 - t * 1.20643348e-6));
     }
-    else if (mc == 0.0)
+    else if (mc >= 0.0)
     {
         return 1.0;
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -712,20 +713,20 @@ double sceib(double mc)
                ((1.43625827 + t2 * 11.0213608) +
                 t * (10.1960125 + t2));
     }
-    else if (mc > 0.0)
+    else if (mc >= 16.0 * DBL_TRUE_MIN)
     {
         double t = 589.275192 * mc;
         return mc * log(mc * 0.0625) *
                    (0.25 + t * (0.000477280426 + t * 8.45890619e-7)) +
                (1.0 + t * (0.00127274774 + t * 2.30087306e-6));
     }
-    else if (mc == 0.0)
+    else if (mc >= 0.0)
     {
         return 1.0;
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -777,7 +778,7 @@ double sceid(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {
@@ -836,7 +837,7 @@ double sceis(double mc)
     }
     else if (isnan(mc))
     {
-        return nan("");
+        return mc;
     }
     else
     {

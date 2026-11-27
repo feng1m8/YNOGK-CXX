@@ -321,24 +321,61 @@ double icelk(double K)
     else if (K < KH)
     {
         double kx = K - 6.6363331625866755;
-        double sum = 10.5 + kx * (2.0001414497655 + kx * (-1.277026552e-4 + kx * (7.59811036e-5 + kx * (-3.34231082e-5 + kx * (1.15490151e-5 + kx * (-3.2468658e-6 + kx * (7.573936e-7 + kx * (-1.476109e-7 + kx * (2.383963e-8 + kx * (-3.07883e-9 + kx * (2.83187e-10 + kx * (-9.125e-12 + kx * (-2.572e-12 + kx * (5.45e-13 + kx * (-3.0e-14 + kx * (-2.0e-14 + kx * 6.2e-15))))))))))))))));
+        /* clang-format off */
+        double sum = 10.5 + 
+            kx * (2.0001414497655 + 
+            kx * (-1.277026552e-4 + 
+            kx * (7.59811036e-5 + 
+            kx * (-3.34231082e-5 + 
+            kx * (1.15490151e-5 + 
+            kx * (-3.2468658e-6 + 
+            kx * (7.573936e-7 + 
+            kx * (-1.476109e-7 + 
+            kx * (2.383963e-8 + 
+            kx * (-3.07883e-9 + 
+            kx * (2.83187e-10 + 
+            kx * (-9.125e-12 + 
+            kx * (-2.572e-12 + 
+            kx * (5.45e-13 + 
+            kx * (-3.0e-14 + 
+            kx * (-2.0e-14 + 
+            kx * 6.2e-15))))))))))))))));
+        /* clang-format on */
         return 1.0 - exp(-sum);
     }
     else if (K < 19.408121055678468)
     {
         double kx = K - 10.1862944132991;
-        double sum = 17.6 + kx * (2.0000001973566 + kx * (-1.859964e-7 + kx * (1.164242e-7 + kx * (-5.44254e-8 + kx * (2.02555e-8 + kx * (-6.247e-9 + kx * (1.6406e-9 + kx * (-3.74e-10 + kx * (7.5e-11 + kx * -1.3e-11)))))))));
+        /* clang-format off */
+        double sum = 17.6 + 
+            kx * (2.0000001973566 + 
+            kx * (-1.859964e-7 + 
+            kx * (1.164242e-7 + 
+            kx * (-5.44254e-8 + 
+            kx * (2.02555e-8 + 
+            kx * (-6.247e-9 + 
+            kx * (1.6406e-9 + 
+            kx * (-3.74e-10 + 
+            kx * (7.5e-11 + 
+            kx * -1.3e-11)))))))));
+        /* clang-format on */
         return 1.0 - exp(-sum);
     }
     else if (isnan(K))
     {
-        return nan("");
+        return K;
     }
     else
     {
         feraiseexcept(FE_INEXACT);
         return 1.0;
     }
+}
+
+static double icele_func(double mc, void *E)
+{
+    double e = *(double *)E;
+    return ceie(mc) - sqrt(mc) * e;
 }
 
 double icele(double EP)
@@ -370,17 +407,29 @@ double icele(double EP)
 
     if (E > EA)
     {
-        return nan("");
+        if (isinf(E))
+        {
+            return -E;
+        }
+        else
+        {
+            scipy_zeros_info solver_stats;
+            double mc = brentq(icele_func, 0.0, 1.0, 2.0e-12, 8.881784197001252e-16, 100, &E, &solver_stats);
 
-        // if (isinf(cele))
-        // {
-        //     return -HUGE_VAL;
-        // }
-        // else
-        // {
-        //     double mc = rtsafe(&rtfunc_cele, 0.0, 1.0, 1.11e-16, &cele);
-        //     return 1.0 - 1.0 / mc;
-        // }
+            switch (solver_stats.error_num)
+            {
+            case CONVERGED:
+                return 1.0 - 1.0 / mc;
+            case SIGNERR:
+                feraiseexcept(FE_INVALID);
+                return nan("");
+            case CONVERR:
+                feraiseexcept(FE_INVALID);
+                return 1.0 - 1.0 / mc;
+            default:
+                return nan("");
+            }
+        }
     }
     else if (E > EB)
     {
@@ -633,13 +682,52 @@ double icele(double EP)
     else if (E > EH)
     {
         double ex = -log(EP) - 7.106602166777170551;
-        double sum = 8.0 + ex * (1.1138558445808138764 + ex * (-7.160737009252904412e-3 + ex * (6.14816637761486272e-4 + ex * (-5.7949395860221721e-5 + ex * (5.45152607032739e-6 + ex * (-4.80075731204772e-7 + ex * (3.7093529426652e-8 + ex * (-2.222894130707e-9 + ex * (5.37796726e-11 + ex * (1.071061734e-11 + ex * (-2.33974846e-12 + ex * (3.0858084e-13 + ex * (-3.239999e-14 + ex * (2.84089e-15 + ex * (-2.0071e-16 + ex * (9.0e-18 + ex * (3.0e-19 + ex * -2.0e-19)))))))))))))))));
+        /* clang-format off */
+        double sum = 8.0 + 
+            ex * (1.1138558445808138764 + 
+            ex * (-7.160737009252904412e-3 + 
+            ex * (6.14816637761486272e-4 + 
+            ex * (-5.7949395860221721e-5 + 
+            ex * (5.45152607032739e-6 + 
+            ex * (-4.80075731204772e-7 + 
+            ex * (3.7093529426652e-8 + 
+            ex * (-2.222894130707e-9 + 
+            ex * (5.37796726e-11 + 
+            ex * (1.071061734e-11 + 
+            ex * (-2.33974846e-12 + 
+            ex * (3.0858084e-13 + 
+            ex * (-3.239999e-14 + 
+            ex * (2.84089e-15 + 
+            ex * (-2.0071e-16 + 
+            ex * (9.0e-18 + 
+            ex * (3.0e-19 + 
+            ex * -2.0e-19)))))))))))))))));
+        /* clang-format on */
         return 1.0 - exp(-sum);
     }
     else
     {
         double ex = -log(EP) - 13.566548324200306727;
-        double sum = 15.0 + ex * (1.0634010131365226997 + ex * (-2.137214443579717823e-3 + ex * (9.8905527968533563e-5 + ex * (-5.240426861207633e-6 + ex * (2.99271455626484e-7 + ex * (-1.7869634729734e-8 + ex * (1.092804281815e-9 + ex * (-6.7254295377e-11 + ex * (4.096019951e-12 + ex * (-2.42723757e-13 + ex * (1.3740808e-14 + ex * (-7.2627e-16 + ex * (3.455e-17 + ex * (-1.36e-18 + ex * (3.0e-20 + ex * (-1.4e-21 + ex * 7.e-23))))))))))))))));
+        /* clang-format off */
+        double sum = 15.0 + 
+            ex * (1.0634010131365226997 + 
+            ex * (-2.137214443579717823e-3 + 
+            ex * (9.8905527968533563e-5 + 
+            ex * (-5.240426861207633e-6 + 
+            ex * (2.99271455626484e-7 + 
+            ex * (-1.7869634729734e-8 + 
+            ex * (1.092804281815e-9 + 
+            ex * (-6.7254295377e-11 + 
+            ex * (4.096019951e-12 + 
+            ex * (-2.42723757e-13 + 
+            ex * (1.3740808e-14 + 
+            ex * (-7.2627e-16 + 
+            ex * (3.455e-17 + 
+            ex * (-1.36e-18 + 
+            ex * (3.0e-20 + 
+            ex * (-1.4e-21 + 
+            ex * 7.e-23))))))))))))))));
+        /* clang-format on */
         return 1.0 - exp(-sum);
     }
 }

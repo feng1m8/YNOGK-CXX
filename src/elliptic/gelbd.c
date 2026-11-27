@@ -1,4 +1,5 @@
 #include <fenv.h>
+#include <iso646.h>
 #include <math.h>
 
 #include "cei2.h"
@@ -59,7 +60,7 @@ void gelbd(double phi, double mc, double *elb, double *eld)
                 return;
             }
         }
-        else if (isinf(phi) && isinf(mc))
+        else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
             *elb = nan("");
@@ -413,7 +414,7 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
                 return;
             }
         }
-        else if (isinf(phi) && isinf(mc))
+        else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
             *elb = nanf("");
