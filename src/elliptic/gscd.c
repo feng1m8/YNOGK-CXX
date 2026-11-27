@@ -9,114 +9,14 @@ void gscd(double u, double mc, double *s, double *c, double *d)
 {
     const double PI = 3.141592653589793238462;
 
-    if (mc >= 0.0 and mc <= 1.0)
+    if (u <= 0.25 * PI)
     {
-        if (u < 0.0)
-        {
-            gscd(-u, mc, s, c, d);
-            *s = -*s;
-            return;
-        }
-        else if (u <= 0.25 * PI)
-        {
-            scd2(u, mc, s, c, d);
-            return;
-        }
-        else
-        {
-            double elk = ceik(mc);
-
-            if (u <= 0.5 * elk)
-            {
-                scd2(u, mc, s, c, d);
-                return;
-            }
-            else if (u <= elk)
-            {
-                scd2(elk - u, mc, c, s, d);
-                *d = 1.0 / *d;
-                *s = *s * *d;
-                *d = *d * sqrt(mc);
-                *c = *c * *d;
-                return;
-            }
-            else if (u <= 2.0 * elk)
-            {
-                gscd(2.0 * elk - u, mc, s, c, d);
-                *c = -*c;
-                return;
-            }
-            else if (isfinite(u))
-            {
-                u = remainder(u, 4.0 * elk);
-                gscd(u, mc, s, c, d);
-                return;
-            }
-            else
-            {
-                if (isinf(u))
-                {
-                    feraiseexcept(FE_INVALID);
-                }
-
-                *s = nan("");
-                *c = nan("");
-                *d = nan("");
-                return;
-            }
-        }
-    }
-    else if (mc < 0.0)
-    {
-        if (u == 0.0)
-        {
-            *s = 0.0;
-            *c = 1.0;
-            *d = 1.0;
-            return;
-        }
-        else
-        {
-            double m = 1.0 / (1.0 - mc);
-            mc = 1.0 - m;
-            double k = sqrt(m);
-
-            if (fabs(u) <= k * ceik(mc))
-            {
-                gscd(u / k, mc, s, d, c);
-                *s = *s * k;
-                return;
-            }
-            else
-            {
-                if (not isnan(u))
-                {
-                    feraiseexcept(FE_INVALID);
-                }
-
-                *s = nan("");
-                *c = nan("");
-                *d = nan("");
-                return;
-            }
-        }
-    }
-    else if (isfinite(mc))
-    {
-        double kc = sqrt(mc);
-
-        gscd(u * kc, 1.0 / mc, s, c, d);
-        *d = 1.0 / *d;
-        *s = *s * *d / kc;
-        *c = *c * *d;
+        scd2(u, mc, s, c, d);
         return;
     }
     else
     {
-        if (isinf(mc) and not isnan(u))
-        {
-            feraiseexcept(FE_INVALID);
-        }
+        feraiseexcept(FE_INVALID);
 
         *s = nan("");
         *c = nan("");
