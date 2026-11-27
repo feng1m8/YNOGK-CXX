@@ -24,6 +24,7 @@ add_subdirectory(src/solve2345)
 
 add_library(
     "ynogk_cxx" OBJECT
+    "extra/rootfind/brentq.c"
     "src/elliptic/qcei.c"
     "src/elliptic/cei2.c"
     "src/elliptic/gelf.c"
@@ -44,6 +45,7 @@ target_include_directories(
     "ynogk_cxx" 
     PUBLIC "include" 
     PUBLIC "YNOGK/common_src"
+    PRIVATE "extra"
 )
 
 target_link_libraries(

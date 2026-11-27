@@ -45,7 +45,7 @@ double gelf(double phi, double m)
         }
         else if (isinf(phi) && isinf(mc))
         {
-            feraiseexcept(FE_DIVBYZERO);
+            feraiseexcept(FE_INVALID);
             return nan("");
         }
         else
@@ -133,7 +133,7 @@ double acn(double c, double mc)
         c = sqrt(yc);
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     double y = 1.0 - yc;
     double s = sqrt(y);
@@ -162,7 +162,7 @@ double asn(double s, double m)
         }
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     s = sqrt(y);
     return f * s * serf(y, m);
@@ -254,7 +254,7 @@ float rgelf(float phi, float m)
         }
         else if (isinf(phi) && isinf(mc))
         {
-            feraiseexcept(FE_DIVBYZERO);
+            feraiseexcept(FE_INVALID);
             return nanf("");
         }
         else
@@ -342,7 +342,7 @@ float racn(float c, float mc)
         c = sqrtf(yc);
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     float y = 1.0f - yc;
     float s = sqrtf(y);
@@ -371,7 +371,7 @@ float rasn(float s, float m)
         }
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     s = sqrtf(y);
     return f * s * serf(y, m);

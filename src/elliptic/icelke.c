@@ -1,6 +1,20 @@
 #include <fenv.h>
 #include <math.h>
 
+#include "rootfind/zeros.h"
+
+#include "cei2.h"
+
+static double icelk_func(double mc, void *K)
+{
+    double k = *(double *)K;
+
+    if (mc == 0.0)
+        return -k;
+    else
+        return sqrt(mc) * ceik(mc) - k;
+}
+
 double icelk(double K)
 {
     static const double KA = 1.5707963267948966;
@@ -28,21 +42,30 @@ double icelk(double K)
 
     if (K < KA)
     {
-        if (K < 0.0)
+        if (K >= 0.0)
+        {
+            scipy_zeros_info solver_stats;
+            double mc = brentq(icelk_func, 0.0, 1.0, 2.0e-12, 8.881784197001252e-16, 100, &K, &solver_stats);
+
+            switch (solver_stats.error_num)
+            {
+            case CONVERGED:
+                return 1.0 - 1.0 / mc;
+            case SIGNERR:
+                feraiseexcept(FE_INVALID);
+                return nan("");
+            case CONVERR:
+                feraiseexcept(FE_INVALID);
+                return 1.0 - 1.0 / mc;
+            default:
+                return nan("");
+            }
+        }
+        else
         {
             feraiseexcept(FE_INVALID);
             return nan("");
         }
-
-        if (K == 0.0)
-            return INFINITY;
-
-        return 0.0;
-        // else
-        // {
-        //     double mc = rtsafe(&rtfunc_celk, 0.0, 1.0, 1.11e-16, &celk);
-        //     return 1.0 - 1.0 / mc;
-        // }
     }
     else if (K < KB)
     {
@@ -313,6 +336,7 @@ double icelk(double K)
     }
     else
     {
+        feraiseexcept(FE_INEXACT);
         return 1.0;
     }
 }

@@ -61,7 +61,7 @@ void gelbd(double phi, double mc, double *elb, double *eld)
         }
         else if (isinf(phi) && isinf(mc))
         {
-            feraiseexcept(FE_DIVBYZERO);
+            feraiseexcept(FE_INVALID);
             *elb = nan("");
             *eld = nan("");
             return;
@@ -191,7 +191,7 @@ void elsbd(double s, double mc, double *b, double *d)
         }
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     serbd(y, m, b, d);
     *b = *b * ss[j];
@@ -415,7 +415,7 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
         }
         else if (isinf(phi) && isinf(mc))
         {
-            feraiseexcept(FE_DIVBYZERO);
+            feraiseexcept(FE_INVALID);
             *elb = nanf("");
             *eld = nanf("");
             return;
@@ -545,7 +545,7 @@ void relsbd(float s, float mc, float *b, float *d)
         }
     }
 
-    feraiseexcept(FE_INEXACT);
+    feraiseexcept(FE_INVALID);
 
     rserbd(y, m, b, d);
     *b = *b * ss[j];
