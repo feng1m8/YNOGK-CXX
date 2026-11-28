@@ -15,9 +15,6 @@ double gelf(double phi, double m)
     {
         if (isfinite(phi))
         {
-            if (isinf(mc))
-                return 0.0;
-
             double phix = remainder(phi, PI);
             double n = (phi - phix) / PI;
             phi = fabs(phix);
@@ -26,6 +23,9 @@ double gelf(double phi, double m)
 
             if (mc > 1.0)
             {
+                if (isinf(mc))
+                    return 0.0;
+
                 mc = 1.0 / mc;
                 kc = sqrt(mc);
                 phi = atan(tan(phi) / kc);
@@ -73,9 +73,10 @@ double gelf(double phi, double m)
 
             return k * f;
         }
-        else if (!isnan(phi))
+        else if (not isnan(phi))
         {
             feraiseexcept(FE_INVALID);
+            return nan("");
         }
     }
 
@@ -224,9 +225,6 @@ float rgelf(float phi, float m)
     {
         if (isfinite(phi))
         {
-            if (isinf(mc))
-                return 0.0f;
-
             float phix = remainderf(phi, PI);
             float n = (phi - phix) / PI;
             phi = fabsf(phix);
@@ -235,6 +233,9 @@ float rgelf(float phi, float m)
 
             if (mc > 1.0f)
             {
+                if (isinf(mc))
+                    return 0.0f;
+
                 mc = 1.0f / mc;
                 kc = sqrtf(mc);
                 phi = atanf(tanf(phi) / kc);
@@ -282,9 +283,10 @@ float rgelf(float phi, float m)
 
             return k * f;
         }
-        else if (!isnan(phi))
+        else if (not isnan(phi))
         {
             feraiseexcept(FE_INVALID);
+            return nanf("");
         }
     }
 

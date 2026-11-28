@@ -25,9 +25,12 @@ add_subdirectory(src/solve2345)
 add_library(
     "ynogk_cxx" OBJECT
     "extra/rootfind/brentq.c"
+    "src/elliptic/gscd.c"
     "src/elliptic/qcei.c"
     "src/elliptic/cei2.c"
     "src/elliptic/gelf.c"
+    "src/elliptic/gelbd.c"
+    "src/elliptic/elbdj2_all.c"
     "src/elliptic/icelke.c"
     "YNOGK/common_src/Carlsons.c"
     "YNOGK/common_src/ellCarlsons.c"

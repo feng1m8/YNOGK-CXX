@@ -7,20 +7,92 @@
 
 void gscd(double u, double mc, double *s, double *c, double *d)
 {
-    const double PI = 3.141592653589793238462;
+    static const double PI = 3.1415926535897932384626433;
 
-    if (u <= 0.25 * PI)
+    if (isnan(u))
     {
-        scd2(u, mc, s, c, d);
+        *s = *c = *d = u;
+        return;
+    }
+    else if (mc > 1.0)
+    {
+        mc = 1.0 / mc;
+        double kc = sqrt(mc);
+
+        gscd(u / kc, mc, s, c, d);
+        *d = 1.0 / *d;
+        *s = *s * *d * kc;
+        *c = *c * *d;
+        return;
+    }
+    else if (mc == 1.0)
+    {
+        *s = sin(u);
+        *c = cos(u);
+        *d = 1.0;
+        return;
+    }
+    else if (mc > 0.0)
+    {
+        double ux = fabs(u);
+        int q = 0;
+
+        if (ux >= 0.25 * PI)
+        {
+            double k = ceik(mc);
+            u = remquo(u, k, &q);
+            ux = fabs(u);
+        }
+
+        scd2(ux, mc, s, c, d);
+        *s = copysign(*s, u);
+
+        if ((q & 1) == 1)
+        {
+            double kc = sqrt(mc);
+            double sx = *s;
+            double dx = 1.0 / *d;
+            *s = *c * dx;
+            *d = kc * dx;
+            *c = -sx * kc * dx;
+        }
+
+        if ((q & 2) == 2)
+        {
+            *s = -*s;
+            *c = -*c;
+        }
+
+        return;
+    }
+    else if (mc == 0.0)
+    {
+        *s = tanh(u);
+        *c = *d = 1.0 / cosh(u);
+        return;
+    }
+    else if (mc < 0.0)
+    {
+        if (isinf(mc))
+        {
+            *s = 0.0;
+            *c = 1.0;
+            *d = nan("");
+            return;
+        }
+
+        double m = 1.0 - mc;
+        m = 1.0 / m;
+        mc = 1.0 - m;
+        double k = sqrt(m);
+
+        gscd(u / k, mc, s, d, c);
+        *s = *s * k;
         return;
     }
     else
     {
-        feraiseexcept(FE_INVALID);
-
-        *s = nan("");
-        *c = nan("");
-        *d = nan("");
+        *s = *c = *d = mc;
         return;
     }
 }
@@ -106,6 +178,99 @@ void scd2(double u, double mc, double *s, double *c, double *d)
     *c = 1.0 - b;
     *s = sqrt(y);
     *d = sqrt(1.0 - m * y);
+    return;
+}
+
+void rgscd(float u, float mc, float *s, float *c, float *d)
+{
+    static const float PI = 3.1415926535897932384626433f;
+
+    if (isnan(u))
+    {
+        *s = *c = *d = u;
+        return;
+    }
+    else if (mc > 1.0f)
+    {
+        mc = 1.0f / mc;
+        float kc = sqrtf(mc);
+
+        rgscd(u / kc, mc, s, c, d);
+        *d = 1.0f / *d;
+        *s = *s * *d * kc;
+        *c = *c * *d;
+        return;
+    }
+    else if (mc == 1.0f)
+    {
+        *s = sinf(u);
+        *c = cosf(u);
+        *d = 1.0f;
+        return;
+    }
+    else if (mc > 0.0f)
+    {
+        float ux = fabsf(u);
+        int q = 0;
+
+        if (ux >= 0.25f * PI)
+        {
+            float k = sceik(mc);
+            u = remquof(u, k, &q);
+            ux = fabsf(u);
+        }
+
+        rscd2(ux, mc, s, c, d);
+        *s = copysignf(*s, u);
+
+        if ((q & 1) == 1)
+        {
+            float kc = sqrtf(mc);
+            float sx = *s;
+            float dx = 1.0f / *d;
+            *s = *c * dx;
+            *d = kc * dx;
+            *c = -sx * kc * dx;
+        }
+
+        if ((q & 2) == 2)
+        {
+            *s = -*s;
+            *c = -*c;
+        }
+
+        return;
+    }
+    else if (mc == 0.0f)
+    {
+        *s = tanhf(u);
+        *c = *d = 1.0f / coshf(u);
+        return;
+    }
+    else if (mc < 0.0f)
+    {
+        if (isinf(mc))
+        {
+            *s = 0.0f;
+            *c = 1.0f;
+            *d = nanf("");
+            return;
+        }
+
+        float m = 1.0f - mc;
+        m = 1.0f / m;
+        mc = 1.0f - m;
+        float k = sqrtf(m);
+
+        rgscd(u / k, mc, s, d, c);
+        *s = *s * k;
+        return;
+    }
+    else
+    {
+        *s = *c = *d = mc;
+        return;
+    }
 }
 
 void rscd2(float u, float mc, float *s, float *c, float *d)
@@ -183,4 +348,5 @@ void rscd2(float u, float mc, float *s, float *c, float *d)
     *c = 1.0f - b;
     *s = sqrtf(y);
     *d = sqrtf(1.0f - m * y);
+    return;
 }

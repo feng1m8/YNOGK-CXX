@@ -13,13 +13,6 @@ void gelbd(double phi, double mc, double *elb, double *eld)
     {
         if (isfinite(phi))
         {
-            if (isinf(mc))
-            {
-                *elb = 0.0;
-                *eld = 0.0;
-                return;
-            }
-
             double phix = remainder(phi, PI);
             double n = (phi - phix) / PI;
             phi = fabs(phix);
@@ -29,6 +22,12 @@ void gelbd(double phi, double mc, double *elb, double *eld)
 
             if (mc > 1.0)
             {
+                if (isinf(mc))
+                {
+                    *elb = *eld = 0.0;
+                    return;
+                }
+
                 mc = 1.0 / mc;
                 kc = sqrt(mc);
                 phi = atan(tan(phi) / kc);
@@ -63,14 +62,12 @@ void gelbd(double phi, double mc, double *elb, double *eld)
         else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
-            *elb = nan("");
-            *eld = nan("");
+            *elb = *eld = nan("");
             return;
         }
         else
         {
-            *elb = phi;
-            *eld = phi;
+            *elb = *eld = phi;
             return;
         }
     }
@@ -78,8 +75,7 @@ void gelbd(double phi, double mc, double *elb, double *eld)
     {
         if (phi == 0.0)
         {
-            *elb = 0.0;
-            *eld = 0.0;
+            *elb = *eld = 0.0;
             return;
         }
 
@@ -101,14 +97,16 @@ void gelbd(double phi, double mc, double *elb, double *eld)
             *eld = *eld * k * m;
             return;
         }
-        else if (!isnan(phi))
+        else if (not isnan(phi))
         {
             feraiseexcept(FE_INVALID);
+            *elb = *eld = nan("");
+            return;
         }
     }
 
-    *elb = nan("");
-    *eld = nan("");
+    *elb = *eld = nan("");
+    return;
 }
 
 void elbd(double phi, double phic, double mc, double *b, double *d)
@@ -129,6 +127,7 @@ void elbd(double phi, double phic, double mc, double *b, double *d)
         double sz = z * sqrt(1.0 - x);
         *b = ceib(mc) - (*b - sz);
         *d = ceid(mc) - (*d + sz);
+        return;
     }
     else
     {
@@ -146,6 +145,7 @@ void elbd(double phi, double phic, double mc, double *b, double *d)
             double sz = c * sqrt(t2);
             *b = ceib(mc) - (*b - sz);
             *d = ceid(mc) - (*d + sz);
+            return;
         }
     }
 }
@@ -361,7 +361,7 @@ void serbd(double y, double m, double *b, double *d)
 
 void rgelbd(float phi, float mc, float *elb, float *eld)
 {
-    static const float PI = 3.141592653589793238462f;
+    static const float PI = 3.14159265f;
 
     if (mc >= 0.0f)
     {
@@ -369,8 +369,7 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
         {
             if (isinf(mc))
             {
-                *elb = 0.0f;
-                *eld = 0.0f;
+                *elb = *eld = 0.0f;
                 return;
             }
 
@@ -417,14 +416,12 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
         else if (isinf(phi) and isinf(mc))
         {
             feraiseexcept(FE_INVALID);
-            *elb = nanf("");
-            *eld = nanf("");
+            *elb = *eld = nanf("");
             return;
         }
         else
         {
-            *elb = phi;
-            *eld = phi;
+            *elb = *eld = phi;
             return;
         }
     }
@@ -432,8 +429,7 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
     {
         if (phi == 0.0f)
         {
-            *elb = 0.0f;
-            *eld = 0.0f;
+            *elb = *eld = 0.0f;
             return;
         }
 
@@ -455,14 +451,16 @@ void rgelbd(float phi, float mc, float *elb, float *eld)
             *eld = *eld * k * m;
             return;
         }
-        else if (!isnan(phi))
+        else if (not isnan(phi))
         {
             feraiseexcept(FE_INVALID);
+            *elb = *eld = nanf("");
+            return;
         }
     }
 
-    *elb = nanf("");
-    *eld = nanf("");
+    *elb = *eld = nanf("");
+    return;
 }
 
 void relbd(float phi, float phic, float mc, float *b, float *d)
@@ -483,6 +481,7 @@ void relbd(float phi, float phic, float mc, float *b, float *d)
         float sz = z * sqrtf(1.0f - x);
         *b = sceib(mc) - (*b - sz);
         *d = sceid(mc) - (*d + sz);
+        return;
     }
     else
     {
@@ -500,6 +499,7 @@ void relbd(float phi, float phic, float mc, float *b, float *d)
             float sz = c * sqrtf(t2);
             *b = sceib(mc) - (*b - sz);
             *d = sceid(mc) - (*d + sz);
+            return;
         }
     }
 }

@@ -330,6 +330,8 @@ cdef extern from 'ynogk_cxx/particle.hxx':
     long double qceie(long double m, long double mc);
     long double qceib(long double m, long double mc);
     long double qceid(long double m, long double mc);
+    void gscd(double u, double mc, double *s, double *c, double *d);
+    void celbdj(double nc, double mc, double *celb, double *celd, double *celj);
     }
     '''
     double c_ceik 'ceik' (double) nogil
@@ -344,6 +346,8 @@ cdef extern from 'ynogk_cxx/particle.hxx':
     long double c_qceie 'qceie'(long double m, long double mc) nogil
     long double c_qceib 'qceib'(long double m, long double mc) nogil
     long double c_qceid 'qceid'(long double m, long double mc) nogil
+    void c_gscd 'gscd'(double u, double mc, double *s, double *c, double *d) nogil
+    void c_celbdj 'celbdj'(double nc, double mc, double *celb, double *celd, double *celj) nogil
 
 @cython.ufunc
 cdef double ceik(double mc) nogil:
@@ -392,3 +396,15 @@ cdef double qceib(double m, double mc) nogil:
 @cython.ufunc
 cdef double qceid(double m, double mc) nogil:
     return c_qceid(m, mc)
+
+@cython.ufunc
+cdef (double, double, double) gscd(double u, double mc) noexcept nogil:
+    cdef double s, c, d
+    c_gscd(u, mc, &s, &c, &d)
+    return s, c, d
+
+@cython.ufunc
+cdef double celbdj(double nc, double mc) nogil:
+    cdef double celb, celd, celj
+    c_celbdj(nc, mc, &celb, &celd, &celj)
+    return celj
